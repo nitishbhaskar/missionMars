@@ -3,36 +3,49 @@
 <script src="underscore.min.js"  type="text/javascript"></script>
 <script src="main.js"  type="text/javascript"></script>
 <link href="bootstrap.min.css" rel="stylesheet" />
+<link href="main.css" rel="stylesheet" />
 <body data-ng-app="MissionMars">
   <div data-ng-controller="mainMission">
     <div class="row-fluid">
       <div class="row-fluid">
-        <span class="span3">I:<input type="text" data-ng-model="Main.romanNumbers.I.name"/></span>
-        <span class="span3">V:<input type="text" data-ng-model="Main.romanNumbers.V.name"/></span>
-        <span class="span3">X:<input type="text" data-ng-model="Main.romanNumbers.X.name"/></span>
-        <span class="span3">L:<input type="text" data-ng-model="Main.romanNumbers.L.name"/></span>
+      <span>Define a name to the following Roman numerals.
+      </span>
       </div>
       <div class="row-fluid">
-        <span class="span3">C:<input type="text" data-ng-model="Main.romanNumbers.C.name"/></span>
-        <span class="span3">D:<input type="text" data-ng-model="Main.romanNumbers.D.name"/></span>
-        <span class="span3">M:<input type="text" data-ng-model="Main.romanNumbers.M.name"/></span>
+        <span>I:</span><input type="text" data-ng-model="Main.romanNumbers.I.name"/><br/>
+        <span class="span3">V:<input type="text" data-ng-model="Main.romanNumbers.V.name"/></span><br/>
+        <span class="span3">X:<input type="text" data-ng-model="Main.romanNumbers.X.name"/></span><br/>
+        <span class="span3">L:<input type="text" data-ng-model="Main.romanNumbers.L.name"/></span><br/>
+      </div>
+      <div class="row-fluid">
+        <span class="span3">C:<input type="text" data-ng-model="Main.romanNumbers.C.name"/></span><br/>
+        <span class="span3">D:<input type="text" data-ng-model="Main.romanNumbers.D.name"/></span><br/><br/>
+        <span class="span3">M:<input type="text" data-ng-model="Main.romanNumbers.M.name"/></span><br/>
         <span class="span3"></span>
       </div>
       <div class="row-fluid">
-        <span class="span3"><input type="text" data-ng-model="Main.Metals.Iron.units" data-ng-change="Main.AssignValuesForMetals()"/>Iron = </span>
-        <span class="span3"><input type="text" data-ng-model="Main.Metals.Iron.totalIronCredits" data-ng-change="Main.AssignValuesForMetals()"/></span>
-        <span class="span3"><input type="text" data-ng-model="Main.Metals.Silver.units" data-ng-change="Main.AssignValuesForMetals()"/>Silver = </span>
-        <span class="span3"><input type="text" data-ng-model="Main.Metals.Silver.totalSilverCredits" data-ng-change="Main.AssignValuesForMetals()"/></span>
-        <span class="span3"><input type="text" data-ng-model="Main.Metals.Gold.units" data-ng-change="Main.AssignValuesForMetals()"/>Gold = </span>
-        <span class="span3"><input type="text" data-ng-model="Main.Metals.Gold.totalGoldCredits" data-ng-change="Main.AssignValuesForMetals()"/></span>
+      <span>Objects available for trade
+      </span>
       </div>
-      <div class="row-fluid">
-        Iron = <span class="span3" data-ng-bind="Main.Metals.Iron.value"></span>
-        Silver = <span class="span3" data-ng-bind="Main.Metals.Silver.value"></span>
-        Gold = <span class="span3" data-ng-bind="Main.Metals.Gold.value"></span>
+      <div class="row-fluid" data-ng-repeat="metal in Main.Metals">
+        <span class="span3"><input type="text" data-ng-model="metal.units" data-ng-change="Main.AssignValuesForMetals()"/>{{metal.name}} = </span>
+        <span class="span3"><input type="text" data-ng-model="metal.totalCredits" data-ng-change="Main.AssignValuesForMetals()"/></span><br/>
       </div>
+            <div class="row-fluid">
+      <span>Value of each object
+      </span>
+      </div>
+      <div class="row-fluid" data-ng-repeat="metal in Main.Metals">
+        {{metal.name}} =<span class="span3" data-ng-bind="metal.value"></span><br/>
+      </div>
+      
     </div>
-    <input type="text" data-ng-change="Main.CalculateTotalCredits()" data-ng-model="Main.input"/>
+
+    Enter the string here:<input type="text" data-ng-change="Main.CalculateTotalCredits()" data-ng-model="Main.input"/><br/>
+    <div class="row-fluid">
+    <span>Final result<br/>
+    </span>
+    </div>
     <span>Total credits : {{Main.arabic}}</span>
   </div>
 </body>

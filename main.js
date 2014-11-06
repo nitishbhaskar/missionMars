@@ -12,29 +12,36 @@ missionMars.service("missionService", function () {
 		'M' : {value : 1000, name : "thousand", roman:"M"}
 	};
 
-	this.Metals = {
-		'Iron':{units : '',totalIronCredits:'',value:''},
-		'Silver':{units : '',totalIronCredits:'',value:''},
-		'Gold':{units : '',totalIronCredits:'',value:''}
-	};
+	this.Metals = [{units : '',totalCredits:'',value:'',name:'iron'},
+	{units : '',totalCredits:'',value:'', name:'silver'},
+	{units : '',totalCredits:'',value:'', name:'gold'}];
+
 	var self = this;
 
 	this.AssignValuesForMetals = function(){
-		if(this.Metals.Iron.units && this.Metals.Iron.totalIronCredits){
+		_.each(this.Metals,function(metal){
+			if(metal.units && metal.totalCredits){
+				var UnitsInRoman = self.GetTheRomanEquivalent(metal.units);
+				var Units =self.GetHinduArabicNumber(UnitsInRoman);
+				metal.value = metal.totalCredits / Units;
+			}
+		});
+/*
+		if(this.Metals.Iron.units && this.Metals.Iron.totalCredits){
 			var UnitsOfIronInRoman = self.GetTheRomanEquivalent(this.Metals.Iron.units);
 			var UnitsIron =self.GetHinduArabicNumber(UnitsOfIronInRoman);
-			this.Metals.Iron.value = this.Metals.Iron.totalIronCredits / UnitsIron;
+			this.Metals.Iron.value = this.Metals.Iron.totalCredits / UnitsIron;
 		}
-    if(this.Metals.Silver.units && this.Metals.Silver.totalSilverCredits){
+    if(this.Metals.Silver.units && this.Metals.Silver.totalCredits){
       var UnitsOfSilverInRoman = self.GetTheRomanEquivalent(this.Metals.Silver.units);
       var UnitsSilver =self.GetHinduArabicNumber(UnitsOfSilverInRoman);
-      this.Metals.Silver.value = this.Metals.Iron.totalSilverCredits / UnitsSilver;
+      this.Metals.Silver.value = this.Metals.Silver.totalCredits / UnitsSilver;
     }
-    if(this.Metals.Gold.units && this.Metals.Iron.totalGoldCredits){
+    if(this.Metals.Gold.units && this.Metals.Gold.totalCredits){
       var UnitsOfGoldInRoman = self.GetTheRomanEquivalent(this.Metals.Gold.units);
       var UnitsGold =self.GetHinduArabicNumber(UnitsOfGoldInRoman);
-      this.Metals.Gold.value = this.Metals.Gold.totalIronCredits / UnitsGold;
-    }
+      this.Metals.Gold.value = this.Metals.Gold.totalCredits / UnitsGold;
+    }*/
 	};
 
   this.CalculateTotalCredits = function(){
@@ -44,9 +51,9 @@ missionMars.service("missionService", function () {
     var arabicNumber = self.GetHinduArabicNumber(romanEquivalent);
     var words = inputText.split(" ");
     var metal = words[words.length -1];
-    var metalObject = this.Metals[metal];
+    var metalObject = _.where(this.Metals, {name:metal});
     if(metalObject){
-      this.arabic = arabicNumber * metalObject.value;
+      this.arabic = arabicNumber * metalObject[0].value;
     }
 
   };
@@ -85,38 +92,6 @@ missionMars.service("missionService", function () {
 			return "Invalid roman numeral";
 		}
 	};
-
-	this.checkForValue = function(){
-		var inputText = this.input;
-		var words = inputText.split(" ");
-		var extractedRoman ="";
-		_.each(words, function(oneWord){
-			extractedRoman+=self.getRomanEquivalent(oneWord);
-		});
-		this.roman = extractedRoman;
-		var i=this.roman.length - 1;
-		if(romanRegex.test(this.roman) && this.roman.length > 0){
-			var k = this.romanNumbers[this.roman[i]].value;
-			for(i; i>0; i--){
-				if(this.romanNumbers[this.roman[i]].value>this.romanNumbers[this.roman[i-1]].value)
-					k= k-this.romanNumbers[this.roman[i-1]].value;
-				else if(this.romanNumbers[this.roman[i]].value==this.romanNumbers[this.roman[i-1]].value
-				  || this.romanNumbers[this.roman[i]].value < this.romanNumbers[this.roman[i-1]].value)
-					k=k+this.romanNumbers[this.roman[i-1]].value;
-			}
-			var value = k;
-			if(value){
-				this.arabic = value;
-			}
-			else{
-				this.arabic = "Invalid roman numeral";
-			}
-		}
-		else{
-			this.arabic = "Invalid roman numeral";
-		}
-	};
-
 	this.getRomanEquivalent = function(word){
 		var number = _.where(this.romanNumbers,{name:word})
 		if(number.length > 0){
@@ -128,10 +103,6 @@ missionMars.service("missionService", function () {
 	};
 
 });
-
-
-
-
 
 missionMars.controller("mainMission",['$scope', '$rootScope','missionService',
 function($scope, $rootScope, missionService){
