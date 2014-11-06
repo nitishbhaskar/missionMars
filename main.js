@@ -18,6 +18,13 @@ missionMars.service("missionService", function () {
 
 	var self = this;
 
+this.AddNewObject = function(){
+	if(this.newObject){
+		self.Metals.push({units:'',totalCredits:'',value:'',name:this.newObject});
+	}
+	this.newObject="";
+}
+
 	this.AssignValuesForMetals = function(){
 		_.each(this.Metals,function(metal){
 			if(metal.units && metal.totalCredits){
@@ -26,22 +33,7 @@ missionMars.service("missionService", function () {
 				metal.value = metal.totalCredits / Units;
 			}
 		});
-/*
-		if(this.Metals.Iron.units && this.Metals.Iron.totalCredits){
-			var UnitsOfIronInRoman = self.GetTheRomanEquivalent(this.Metals.Iron.units);
-			var UnitsIron =self.GetHinduArabicNumber(UnitsOfIronInRoman);
-			this.Metals.Iron.value = this.Metals.Iron.totalCredits / UnitsIron;
-		}
-    if(this.Metals.Silver.units && this.Metals.Silver.totalCredits){
-      var UnitsOfSilverInRoman = self.GetTheRomanEquivalent(this.Metals.Silver.units);
-      var UnitsSilver =self.GetHinduArabicNumber(UnitsOfSilverInRoman);
-      this.Metals.Silver.value = this.Metals.Silver.totalCredits / UnitsSilver;
-    }
-    if(this.Metals.Gold.units && this.Metals.Gold.totalCredits){
-      var UnitsOfGoldInRoman = self.GetTheRomanEquivalent(this.Metals.Gold.units);
-      var UnitsGold =self.GetHinduArabicNumber(UnitsOfGoldInRoman);
-      this.Metals.Gold.value = this.Metals.Gold.totalCredits / UnitsGold;
-    }*/
+
 	};
 
   this.CalculateTotalCredits = function(){
