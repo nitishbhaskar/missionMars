@@ -2,11 +2,38 @@
 <script src="angular.min.js"  type="text/javascript"></script>
 <script src="underscore.min.js"  type="text/javascript"></script>
 <script src="main.js"  type="text/javascript"></script>
+<link href="bootstrap.min.css" rel="stylesheet" />
 <body data-ng-app="MissionMars">
-<div data-ng-controller="mainMission">
-V:<input type="text" data-ng-model="Main.romanNumbers.V.name"/>
-<input type="text" data-ng-change="Main.checkForValue()" data-ng-model="Main.input"/>
-<span>{{Main.arabic}}</span>
-</div>
+  <div data-ng-controller="mainMission">
+    <div class="row-fluid">
+      <div class="row-fluid">
+        <span class="span3">I:<input type="text" data-ng-model="Main.romanNumbers.I.name"/></span>
+        <span class="span3">V:<input type="text" data-ng-model="Main.romanNumbers.V.name"/></span>
+        <span class="span3">X:<input type="text" data-ng-model="Main.romanNumbers.X.name"/></span>
+        <span class="span3">L:<input type="text" data-ng-model="Main.romanNumbers.L.name"/></span>
+      </div>
+      <div class="row-fluid">
+        <span class="span3">C:<input type="text" data-ng-model="Main.romanNumbers.C.name"/></span>
+        <span class="span3">D:<input type="text" data-ng-model="Main.romanNumbers.D.name"/></span>
+        <span class="span3">M:<input type="text" data-ng-model="Main.romanNumbers.M.name"/></span>
+        <span class="span3"></span>
+      </div>
+      <div class="row-fluid">
+        <span class="span3"><input type="text" data-ng-model="Main.Metals.Iron.units" data-ng-change="Main.AssignValuesForMetals()"/>Iron = </span>
+        <span class="span3"><input type="text" data-ng-model="Main.Metals.Iron.totalIronCredits" data-ng-change="Main.AssignValuesForMetals()"/></span>
+        <span class="span3"><input type="text" data-ng-model="Main.Metals.Silver.units" data-ng-change="Main.AssignValuesForMetals()"/>Silver = </span>
+        <span class="span3"><input type="text" data-ng-model="Main.Metals.Silver.totalSilverCredits" data-ng-change="Main.AssignValuesForMetals()"/></span>
+        <span class="span3"><input type="text" data-ng-model="Main.Metals.Gold.units" data-ng-change="Main.AssignValuesForMetals()"/>Gold = </span>
+        <span class="span3"><input type="text" data-ng-model="Main.Metals.Gold.totalGoldCredits" data-ng-change="Main.AssignValuesForMetals()"/></span>
+      </div>
+      <div class="row-fluid">
+        Iron = <span class="span3" data-ng-bind="Main.Metals.Iron.value"></span>
+        Silver = <span class="span3" data-ng-bind="Main.Metals.Silver.value"></span>
+        Gold = <span class="span3" data-ng-bind="Main.Metals.Gold.value"></span>
+      </div>
+    </div>
+    <input type="text" data-ng-change="Main.CalculateTotalCredits()" data-ng-model="Main.input"/>
+    <span>Total credits : {{Main.arabic}}</span>
+  </div>
 </body>
 </html>
